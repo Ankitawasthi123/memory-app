@@ -1,0 +1,33 @@
+@import "~bootstrap/scss/bootstrap";
+.outer-block {
+  width: 600px;
+  margin: 0 auto;
+  .card-block {
+    position: relative;
+    cursor: pointer;
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.card-block .front {
+  transform: rotateY(90deg);
+  transition: all ease-in 0.2s;
+  position: absolute;
+}
+
+.flipped .front {
+  transform: rotateY(0deg);
+  transition-delay: 0.2s;
+}
+
+.card-block .back {
+  transition: all ease-in 0.2s;
+  transition-delay: 0.2s;
+}
+
+.flipped .back {
+  transform: rotateY(90deg);
+  transition-delay: 0s;
+}
