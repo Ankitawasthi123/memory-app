@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
 function Notificaiton({ notificationProps, setNotificationProps }) {
-  const { header, text, kind } = notificationProps;
+  const { header, text } = notificationProps;
   const handleClose = () => {
     setNotificationProps("");
   };

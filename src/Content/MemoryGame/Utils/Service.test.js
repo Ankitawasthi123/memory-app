@@ -148,9 +148,6 @@ describe("Service js", () => {
       });
   });
 
-  // afterAll(() => {
-  //   global.fetch = unmockedFetch;
-  // });
 
   test("Check for the service", async () => {
     const json = await Service.fetchData();

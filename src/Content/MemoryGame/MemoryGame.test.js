@@ -212,4 +212,5 @@ describe("Memory Game", () => {
     const newGameBtn = screen.getByText("New Game!");
     fireEvent.click(newGameBtn);
   });
+  
 });
