@@ -2,6 +2,9 @@
 .outer-block {
   width: 600px;
   margin: 0 auto;
+  @media only screen and (max-device-width: 767px) {
+    width: 100%;
+  }
   .card-block {
     position: relative;
     cursor: pointer;
@@ -30,4 +33,13 @@
 .flipped .back {
   transform: rotateY(90deg);
   transition-delay: 0s;
+}
+
+.text-align-right{
+  text-align: right;
+}
+
+.score-area{
+  font-size: 22px;
+  font-weight: bold;
 }

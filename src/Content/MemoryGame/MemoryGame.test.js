@@ -8,7 +8,6 @@ import {
 import * as React from "react";
 import * as svcAPI from "./Utils/Service";
 import "@testing-library/jest-dom";
-import { act } from "react-dom/test-utils";
 import MemoryGame from "./MemoryGame";
 
 const mockResponseValue = [

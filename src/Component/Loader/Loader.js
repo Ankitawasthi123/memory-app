@@ -1,11 +1,15 @@
 import React from "react";
 import Spinner from "react-bootstrap/Spinner";
+import "./Loader.scss";
 
 const Loader = () => {
   return (
-    <Spinner animation="border" role="status">
-      <span className="visually-hidden">Loading...</span>
-    </Spinner>
+    <>
+      <div className="spinner">
+        <Spinner animation="border" variant="danger" />
+      </div>
+      <div className="loader-skin"></div>
+    </>
   );
 };
 

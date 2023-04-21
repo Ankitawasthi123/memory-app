@@ -6,6 +6,9 @@ import { fetchData } from "./Utils/Service";
 import Card from "./Card/Card";
 import ConfirmModal from "../../Component/ConfirmModal/ConfirmModal";
 import Loader from "../../Component/Loader/Loader";
+import Col from "react-bootstrap/Col";
+import Notification from "../../Component/Notification/Notificaiton";
+import "./MemoryGame.scss";
 
 const MemoryGame = () => {
   const [finalData, setFinalData] = useState([]);
@@ -15,16 +18,26 @@ const MemoryGame = () => {
   const [choiceTwo, setChoiceTwo] = useState();
   const [gameOverProps, setGameOverProps] = useState(false);
   const [loader, setLoader] = useState(false);
-
+  const [notificationProps, setNotificationProps] = useState();
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = () => {
-    setLoader(true)
-    fetchData().then((response) => suffleCards(response));
-    setLoader(false)
+    setLoader(true);
+    fetchData()
+      .then((response) => {
+        suffleCards(response);
+        setLoader(false);
+      })
+      .catch((error) => {
+        setNotificationProps({
+          kind: "danger",
+          header: "ERROR",
+          text: "Api is not working.",
+        });
+      });
   };
 
   const suffleCards = (data = []) => {
@@ -89,7 +102,6 @@ const MemoryGame = () => {
     loadData();
   };
 
-
   return (
     <>
       {loader && <Loader />}
@@ -111,13 +123,20 @@ const MemoryGame = () => {
               );
             })}
           </Row>
+          <Row className="score-area">
+            <Col>TIme : {seconds} seconds</Col>
+            <Col className="text-align-right">Score: {score}</Col>
+          </Row>
         </Container>
-        Score: {score} <br />
-        <br />
-        Timer : {seconds}
       </div>
       {gameOverProps && (
         <ConfirmModal handleClose={handleClose} score={score} />
+      )}
+      {notificationProps && (
+        <Notification
+          notificationProps={notificationProps}
+          setNotificationProps={setNotificationProps}
+        />
       )}
     </>
   );

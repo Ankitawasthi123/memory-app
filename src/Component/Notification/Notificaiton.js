@@ -2,23 +2,23 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 
-function ConfirmModal({ score, handleClose }) {
+function Notificaiton({ notificationProps, setNotificationProps }) {
+  const { header, text, kind } = notificationProps;
+  const handleClose = () => {
+    setNotificationProps("");
+  };
   return (
     <>
       <Modal
         show={true}
-        onHide={handleClose}
         animation={false}
         className="game-over-modal text-center"
       >
         <Modal.Body>
-          <h1>
-            GAME <br />
-            OVER
-          </h1>
-          <p>Score: {score}</p>
+          <h1>{header}</h1>
+          <p>{text}</p>
           <Button variant="outline-secondary" onClick={handleClose}>
-            New Game!
+            {"Close"}
           </Button>
         </Modal.Body>
       </Modal>
@@ -26,4 +26,4 @@ function ConfirmModal({ score, handleClose }) {
   );
 }
 
-export default ConfirmModal;
+export default Notificaiton;

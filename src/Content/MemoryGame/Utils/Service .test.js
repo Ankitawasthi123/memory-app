@@ -148,17 +148,11 @@ describe("Service js", () => {
       });
   });
 
-  afterAll(() => {
-    global.fetch = unmockedFetch;
-  });
-
-  // it("Check service unit test ", async () => {
-  //     jest.spyOn("fetch").mockResolvedValue(mockResponseValue);
-  //     const result = await Service.fetchData();
-  //     expect(result).toEqual(Mapper.randomList(mockResponseValue));
+  // afterAll(() => {
+  //   global.fetch = unmockedFetch;
   // });
 
-  test("works", async () => {
+  test("Check for the service", async () => {
     const json = await Service.fetchData();
     expect(Array.isArray(json)).toEqual(true);
     expect(json.length).toEqual(0);

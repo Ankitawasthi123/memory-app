@@ -8,7 +8,7 @@ const Card = ({ item, handleChoice, flipped, id }) => {
     handleChoice(item);
   };
   return (
-    <Col className="p-4 text-center col-4 col-md-4 col-xl-3">
+    <Col className="p-3 text-center col-4 col-md-4 col-xl-3">
       <div className={flipped ? "flipped card-block" : "card-block"} >
         <img className="front" src={item.avatar_url} />
         <img src={backImg} onClick={handleClick} data-testid={id} />
