@@ -9,20 +9,18 @@ import Loader from "../../Component/Loader/Loader";
 import Col from "react-bootstrap/Col";
 import Notification from "../../Component/Notification/Notificaiton";
 import "./MemoryGame.scss";
+import Button from "react-bootstrap/Button";
 
 const MemoryGame = () => {
   const [finalData, setFinalData] = useState([]);
   const [score, setScore] = useState(0);
+  const [startNewGame, setStartNewGame] = useState(false);
   const [seconds, setSeconds] = useState(60);
   const [choiceOne, setChoiceOne] = useState();
   const [choiceTwo, setChoiceTwo] = useState();
   const [gameOverProps, setGameOverProps] = useState(false);
   const [loader, setLoader] = useState(false);
   const [notificationProps, setNotificationProps] = useState();
-
-  useEffect(() => {
-    loadData();
-  }, []);
 
   const loadData = () => {
     setLoader(true);
@@ -32,6 +30,8 @@ const MemoryGame = () => {
         setLoader(false);
       })
       .catch((error) => {
+        setStartNewGame(false);
+        setLoader(false);
         setNotificationProps({
           kind: "danger",
           header: "ERROR",
@@ -73,16 +73,18 @@ const MemoryGame = () => {
   }, [choiceOne, choiceTwo]);
 
   useEffect(() => {
-    let value = seconds;
-    if (seconds > 0) {
-      const time = setTimeout(() => setSeconds(value - 1), 1000);
-      return () => {
-        clearTimeout(time);
-      };
-    } else {
-      setGameOverProps(true);
+    if (startNewGame) {
+      let value = seconds;
+      if (seconds > 0) {
+        const time = setTimeout(() => setSeconds(value - 1), 1000);
+        return () => {
+          clearTimeout(time);
+        };
+      } else {
+        setGameOverProps(true);
+      }
     }
-  }, [seconds]);
+  }, [seconds, startNewGame]);
 
   useEffect(() => {
     if (score === 600) {
@@ -95,7 +97,8 @@ const MemoryGame = () => {
     setChoiceTwo("");
   };
 
-  const handleClose = () => {
+  const startGame = () => {
+    setStartNewGame(true);
     setSeconds(60);
     setScore(0);
     setGameOverProps(false);
@@ -107,9 +110,15 @@ const MemoryGame = () => {
       {loader && <Loader />}
       <Header />
       <div className="outer-block">
+        <div className="btn-area">
+          <Button variant="outline-secondary" onClick={startGame}>
+            {"Start Game"}
+          </Button>
+        </div>
+
         <Container fluid>
           <Row>
-            {finalData.map((item, i) => {
+            {finalData?.map((item, i) => {
               return (
                 <Card
                   handleChoice={handleChoice}
@@ -123,15 +132,19 @@ const MemoryGame = () => {
               );
             })}
           </Row>
-          <Row className="score-area">
-            <Col>TIme : {seconds} seconds</Col>
-            <Col className="text-align-right">Score: {score}</Col>
-          </Row>
+          {startNewGame && (
+            <Row className="score-area">
+              <Col md={6} sm={12}>
+                TIme : {seconds} seconds
+              </Col>
+              <Col md={6} sm={12} className="text-align-right">
+                Score: {score}
+              </Col>
+            </Row>
+          )}
         </Container>
       </div>
-      {gameOverProps && (
-        <ConfirmModal handleClose={handleClose} score={score} />
-      )}
+      {gameOverProps && <ConfirmModal startGame={startGame} score={score} />}
       {notificationProps && (
         <Notification
           notificationProps={notificationProps}

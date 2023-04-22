@@ -150,7 +150,6 @@ const mockResponseValue = [
 describe("Memory Game", () => {
   let wrapper = null;
   beforeEach(() => {
-    jest.spyOn(svcAPI, "fetchData").mockResolvedValue(mockResponseValue);
     wrapper = render(<MemoryGame />);
   });
 
@@ -160,12 +159,15 @@ describe("Memory Game", () => {
   });
 
   it("Check choice one and choice not matched", async () => {
-    const { rerender } = wrapper;
-    rerender(<MemoryGame />);
+    jest.spyOn(svcAPI, "fetchData").mockResolvedValue(mockResponseValue);
+    const startGame = screen.getByText("Start Game");
+    fireEvent.click(startGame);
+
     await waitFor(() => {
       expect(svcAPI.fetchData).toHaveBeenCalledTimes(1);
     });
-
+    const { rerender } = wrapper;
+    rerender(<MemoryGame />);
     const selectBoxOne = screen.getAllByTestId("4117")[0];
     fireEvent.click(selectBoxOne);
     const selectBoxTwo = screen.getAllByTestId("13352")[1];
@@ -173,12 +175,15 @@ describe("Memory Game", () => {
   });
 
   it("Check complete game over Unit test case", async () => {
-    const { rerender } = wrapper;
-    rerender(<MemoryGame />);
+    jest.spyOn(svcAPI, "fetchData").mockResolvedValue(mockResponseValue);
+    const startGame = screen.getByText("Start Game");
+    fireEvent.click(startGame);
+
     await waitFor(() => {
       expect(svcAPI.fetchData).toHaveBeenCalledTimes(1);
     });
-
+    const { rerender } = wrapper;
+    rerender(<MemoryGame />);
     const selectBox1 = screen.getAllByTestId("4117")[0];
     fireEvent.click(selectBox1);
     const selectBox2 = screen.getAllByTestId("4117")[1];
@@ -212,5 +217,18 @@ describe("Memory Game", () => {
     const newGameBtn = screen.getByText("New Game!");
     fireEvent.click(newGameBtn);
   });
-  
+
+  it("Check api error", async () => {
+    jest.spyOn(svcAPI, "fetchData").mockResolvedValue({});
+    const startGame = screen.getByText("Start Game");
+    fireEvent.click(startGame);
+
+    await waitFor(() => {
+      expect(svcAPI.fetchData).toHaveBeenCalledTimes(1);
+    });
+    const { rerender } = wrapper;
+    rerender(<MemoryGame />);
+    const closeBtn = screen.getByText("Close");
+    fireEvent.click(closeBtn);
+  });
 });

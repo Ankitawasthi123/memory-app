@@ -37,6 +37,9 @@
 
 .text-align-right{
   text-align: right;
+  @media only screen and (max-device-width: 767px) {
+    text-align: left;
+  }
 }
 
 .score-area{
